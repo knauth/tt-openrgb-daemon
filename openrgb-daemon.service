@@ -1,0 +1,14 @@
+[Unit]
+Description=Starts the openrgb binary in server mode
+After=graphical.target
+DefaultDependencies=no
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/openrgb --server
+StandardOutput=journal
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+
