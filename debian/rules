@@ -3,14 +3,13 @@
 %:
 	dh $@
 
-override_dh_auto_install:
-	# Install the systemd user service file
-	install -D -m 644 openrgb-daemon.service $(DESTDIR)/usr/lib/systemd/user/openrgb-daemon.service
+override_dh_installsystemd:
+	dh_installsystemd
 
 override_dh_systemd_enable:
 	# Enable systemd user service
-	dh_systemd_enable --user --name=openrgb-daemon
+	dh_systemd_enable --user --name=tt-openrgb-daemon
 
 override_dh_systemd_start:
 	# Start systemd user service
-	dh_systemd_start --user --name=openrgb-daemon
+	dh_systemd_start --user --name=tt-openrgb-daemon
