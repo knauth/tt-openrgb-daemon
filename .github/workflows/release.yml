@@ -268,10 +268,7 @@ jobs:
       - build_all_depends
       - tagrelease
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write
-      id-token: write
+    permissions: write-all
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
