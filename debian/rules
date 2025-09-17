@@ -5,11 +5,3 @@
 
 override_dh_installsystemd:
 	dh_installsystemd
-
-override_dh_systemd_enable:
-	# Enable systemd user service
-	dh_systemd_enable --user --name=tt-openrgb-daemon
-
-override_dh_systemd_start:
-	# Start systemd user service
-	dh_systemd_start --user --name=tt-openrgb-daemon
