@@ -116,6 +116,7 @@ jobs:
           fi
       # Ok this needs to get up leveled somewhere so that it can be shared across Debian and Ubuntu obviously
       - run: ls -lah
+      - run: cp tt-openrgb-daemon.service debian/
       - run: |
           gbp dch \
             --debian-branch ${ref_name} \
