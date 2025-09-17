@@ -82,25 +82,25 @@ jobs:
         run: git config --global user.email "${EMAIL}"
       - name: Git name
         run: git config --global user.name "${NAME}"
-      - name: Get dpkg
-        run: sudo apt install -y build-essential debhelper dpkg
+      - name: Get deps
+        run: sudo apt install -y build-essential debhelper dpkg python3-venv
       - name: What version are we?
         id: packagever
         run: |
-          . ./venv/bin/activate
           export package_version="$( dpkg-parsechangelog --show-field Version )"
           echo "package_version=${package_version}"
           echo "package_version=${package_version}" >> "$GITHUB_OUTPUT"
       - name: What package are we?
         id: packagename
         run: |
-          . ./venv/bin/activate
-          export package_name="$( toml get project.name --toml-path pyproject.toml )"
+          export package_name=${{ env.project_name }}
           echo "package_name=${package_name}"
           echo "package_name=${package_name}" >> "$GITHUB_OUTPUT"
       - name: Bump the version
         run: |
+          python3 -m venv venv
           . ./venv/bin/activate
+          pip install bump2version
           pip install bump2version
           export package_version_new="$(\
           bump2version --current-version ${{ steps.packagever.outputs.package_version }} --dry-run --list patch \
