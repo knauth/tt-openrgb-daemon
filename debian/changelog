@@ -1,3 +1,20 @@
+tt-openrgb-daemon (0.1.1) noble; urgency=medium
+
+  [ June Knauth (tt) ]
+  * Update version bump to work only with debian/changelog
+  * Properly install python and create the venv
+  * Update package name in deb/control
+  * Add compat and copyright
+  * Fix debian rules
+  * Remove manual enable and start calls
+  * Rename openrgb daemon
+  * Remove preinst and postrm
+  * Copy service file to debian dir
+  * Correctly id package bump step
+  * Broaden release workflow's permissions
+
+ -- Tenstorrent Releases <releases@tenstorrent.com>  Wed, 17 Sep 2025 19:23:51 +0000
+
 tt-openrgb-daemon (0.1.0) unstable; urgency=medium
 
   * Initial release
