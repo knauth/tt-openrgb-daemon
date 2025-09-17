@@ -82,17 +82,13 @@ jobs:
         run: git config --global user.email "${EMAIL}"
       - name: Git name
         run: git config --global user.name "${NAME}"
-      - name: Install toml-cli
-        run: |
-          python3 -m venv venv
-          . ./venv/bin/activate
-          pip install --upgrade pip
-          pip install toml-cli
+      - name: Get dpkg
+        run: sudo apt install -y build-essential debhelper dpkg
       - name: What version are we?
         id: packagever
         run: |
           . ./venv/bin/activate
-          export package_version="$( toml get project.version --toml-path pyproject.toml )"
+          export package_version="$( dpkg-parsechangelog --show-field Version )"
           echo "package_version=${package_version}"
           echo "package_version=${package_version}" >> "$GITHUB_OUTPUT"
       - name: What package are we?
@@ -106,15 +102,10 @@ jobs:
         run: |
           . ./venv/bin/activate
           pip install bump2version
-          bump2version --current-version ${{ steps.packagever.outputs.package_version }} patch pyproject.toml
-      - name: What NEW Version?
-        id: new-package-version
-        run: |
-          python3 -m venv venv
-          . ./venv/bin/activate
-          pip install --upgrade pip
-          pip install toml-cli
-          export package_version_new="$( toml get project.version --toml-path pyproject.toml )"
+          export package_version_new="$(\
+          bump2version --current-version ${{ steps.packagever.outputs.package_version }} --dry-run --list patch \
+          | grep new_version | sed -r s,"^.*=",, \
+          )"
           echo "package_version_new=${package_version_new}"
           echo "package_version_new=${package_version_new}" >> "$GITHUB_OUTPUT"
       - name: Parse version from string
@@ -129,12 +120,6 @@ jobs:
           echo "num_commits_since_tag=${num_commits_since}"
           echo "num_commits_since_tag=${num_commits_since}" >> "$GITHUB_OUTPUT"
       - run: echo ${{ steps.packagever.outputs.package_version }}
-      - name: Update Version - git push
-        run: |
-          git commit \
-            pyproject.toml \
-            -m "pyproject.toml- updating version to ${{ steps.new-package-version.outputs.package_version_new }}"
-          git push
       - name: Find New Git Hash
         id: new-git-hash
         run: |
