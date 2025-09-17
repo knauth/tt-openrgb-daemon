@@ -97,6 +97,7 @@ jobs:
           echo "package_name=${package_name}"
           echo "package_name=${package_name}" >> "$GITHUB_OUTPUT"
       - name: Bump the version
+        id: new-package-version
         run: |
           python3 -m venv venv
           . ./venv/bin/activate
