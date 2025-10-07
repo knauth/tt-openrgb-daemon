@@ -294,7 +294,7 @@ jobs:
       - name: Find the deb & whl files
         run: |
           find ${GITHUB_WORKSPACE} -type f -iname \*.deb -o -iname \*.whl -exec ls -lah {} \;
-          find /home/runner/work/${{ env.project_name }}/${{ env.project_name }}/ -exec ls -lah {} \;
+          find /home/runner/work/${GITHUB_WORKSPACE}/${GITHUB_WORKSPACE}/ -exec ls -lah {} \;
 
       - name: Deb file renames so they don't overlap
         run: |
